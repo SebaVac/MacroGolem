@@ -27,10 +27,6 @@ Last Updates:
 ________________________________________________________________
 Author: Erik Frits"""
 
-# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
-# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
-#==================================================
 import clr
 import csv
 from Autodesk.Revit.DB import Transaction, ElementId, StorageType
@@ -116,8 +112,6 @@ txt_file_path = select_txt_file()
 if txt_file_path:
     # Leer los datos del archivo TXT
     elements_data = parse_txt_file(txt_file_path)
-    print("Datos parseados desde TXT:", elements_data)
-
 
     # Actualizar los parámetros en Revit con los datos extraídos
     update_parameters_from_txt(doc, elements_data)
