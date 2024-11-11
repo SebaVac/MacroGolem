@@ -30,13 +30,13 @@ def export_element_ids():
     # Get all elements in the document (including system families)
     collector = DB.FilteredElementCollector(doc).WhereElementIsNotElementType()
 
-    # Define the folder where the file will be saved
-    folder = "C:\\Users\\Alex\\Desktop\\Dev Projects\\Automatización BIM-datos\\outputs"       
+    # Define the folder where the file will be saved in the user's Documents directory
+    folder = os.path.join(os.path.expanduser("~"), "Documents", "Automatizacion_BIM_datos", "outputs")
     
     if not os.path.exists(folder):
         os.makedirs(folder)  # Create the folder if it doesn't exist
 
-    # Define the Excel filename
+    # Define the Excel filename with a timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = os.path.join(folder, "revit_ids_{}.xlsx".format(timestamp))
 
