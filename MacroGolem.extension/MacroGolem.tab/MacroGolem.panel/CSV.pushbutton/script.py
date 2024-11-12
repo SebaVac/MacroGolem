@@ -5,37 +5,26 @@ Date    = 15.06.2024
 ________________________________________________________________
 Description:
 
-This is the placeholder for a .pushbutton in a /pulldown
-You can use it to start your pyRevit Add-In
-
+Import element parameters from a CSV file and update the Revit model.
 ________________________________________________________________
 How-To:
 
-1. [Hold ALT + CLICK] on the button to open its source folder.
-You will be able to override this placeholder.
+1. Run the script.
+2. Select the CSV file with the element IDs and parameters.
+3. The parameters in the Revit model will be updated accordingly.
 
-2. Automate Your Boring Work ;)
-
-________________________________________________________________
-TODO:
-[FEATURE] - Describe Your ToDo Tasks Here
 ________________________________________________________________
 Last Updates:
 - [15.06.2024] v1.0 Change Description
-- [10.06.2024] v0.5 Change Description
-- [05.06.2024] v0.1 Change Description 
 ________________________________________________________________
 Author: Erik Frits"""
 
-# ╦╔╦╗╔═╗╔═╗╦═╗╔╦╗╔═╗
-# ║║║║╠═╝║ ║╠╦╝ ║ ╚═╗
-# ╩╩ ╩╩  ╚═╝╩╚═ ╩ ╚═╝
 #==================================================
 import clr
 import csv
 from Autodesk.Revit.DB import FilteredElementCollector, BuiltInCategory, Transaction, ElementId, StorageType
 
-# Importar el módulo de Windows Forms
+# Importar el módulo de Windows Forms para seleccionar archivos
 clr.AddReference("System.Windows.Forms")
 from System.Windows.Forms import OpenFileDialog
 
@@ -54,7 +43,7 @@ def select_csv_file():
     else:
         return None
 
-# Función para actualizar los parámetros en Revit
+# Función para actualizar los parámetros en Revit desde CSV
 def update_parameters_from_csv(doc):
     # Abrir el cuadro de diálogo para seleccionar el archivo
     csv_file_path = select_csv_file()
@@ -72,30 +61,26 @@ def update_parameters_from_csv(doc):
             
             # Recorrer cada fila del CSV
             for row in csv_reader:
-                element_id = int(row['ElementID'])  # Obtener ID del elemento desde el CSV
-                element = doc.GetElement(ElementId(element_id))  # Buscar el elemento en el modelo Revit
-                
-                if element:
-                    # Actualizar los parámetros del elemento desde el CSV
-                    for param_name, value in row.items():
-                        if param_name != 'ElementID':  # Saltar el ID del elemento
-                            param = element.LookupParameter(param_name)
-                            if param and param.StorageType == StorageType.String:
-                                param.Set(value)
-                            elif param and param.StorageType == StorageType.Double:
-                                param.SetValueString(value)
-                            elif param and param.StorageType == StorageType.Integer:
-                                param.Set(int(value))
+                try:
+                    element_id = int(row['ElementID'])  # Obtener ID del elemento desde el CSV
+                    element = doc.GetElement(ElementId(element_id))  # Buscar el elemento en el modelo Revit
+                    
+                    if element:
+                        # Actualizar los parámetros del elemento desde el CSV
+                        for param_name, value in row.items():
+                            if param_name != 'ElementID':  # Saltar el ID del elemento
+                                param = element.LookupParameter(param_name)
+                                if param and param.StorageType == StorageType.String:
+                                    param.Set(value)
+                                elif param and param.StorageType == StorageType.Double:
+                                    param.SetValueString(value)
+                                elif param and param.StorageType == StorageType.Integer:
+                                    param.Set(int(value))
+                except Exception as e:
+                    print("Error al procesar el elemento con ID {}: {}".format(row['ElementID'], e))
             
             # Confirmar cambios
             transaction.Commit()
 
 # Llamar a la función para actualizar los parámetros
 update_parameters_from_csv(doc)
-
-
-
-#==================================================
-#🚫 DELETE BELOW
-#from Snippets._customprint import kit_button_clicked    # Import Reusable Function from 'lib/Snippets/_customprint.py'
-#kit_button_clicked(btn_name=__title__)                  # Display Default Print Message
