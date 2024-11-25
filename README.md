@@ -7,3 +7,5 @@ Revit: Es un software de modelamiento de estructuras a las cuales se les puede i
 
 Este plugin facilita la supervisión y el mantenimiento de puentes ferroviarios, permitiendo un flujo de información bidireccional que mejora la eficiencia en la recopilación y actualización de datos estructurales. El proyecto está dirigido a Felipe Muñoz La Rivera, profesor de la Escuela de Ingeniería, quien lidera este esfuerzo en el contexto de la infraestructura ferroviaria.
 
+Curso pyRevit: https://www.youtube.com/watch?v=sNVYFyF5biI&list=PLJHSZmHJLILGHEg3qGlYQ5n3Up1ejfHDA
+Ruta del plugin: C:\Users\Usuario\AppData\Roaming\pyRevitExtension
